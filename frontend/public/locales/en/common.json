@@ -1,0 +1,107 @@
+{
+    "nav": {
+        "home": "Home",
+        "about": "About Us",
+        "services": "Services",
+        "tenders": "Tenders",
+        "careers": "Careers",
+        "news": "News & Events",
+        "gallery": "Gallery",
+        "reports": "Reports",
+        "contact": "Contact Us",
+        "grievance": "Grievance"
+    },
+    "home": {
+        "hero_title": "Telecommunications Consultants India Limited",
+        "hero_subtitle": "A Government of India Enterprise providing world-class Telecom & IT services",
+        "latest_news": "Latest News",
+        "latest_tenders": "Latest Tenders",
+        "our_services": "Our Services",
+        "view_all": "View All",
+        "download": "Download",
+        "deadline": "Deadline",
+        "department": "Department"
+    },
+    "tenders": {
+        "title": "Tenders & Procurement",
+        "ref_number": "Reference Number",
+        "deadline": "Deadline",
+        "department": "Department",
+        "status": "Status",
+        "download_pdf": "Download PDF",
+        "open": "Open",
+        "closed": "Closed",
+        "awarded": "Awarded",
+        "no_tenders": "No tenders found"
+    },
+    "careers": {
+        "title": "Career Opportunities",
+        "post_name": "Post Name",
+        "vacancies": "Vacancies",
+        "last_date": "Last Date",
+        "pay_level": "Pay Level",
+        "download_notification": "Download Notification",
+        "no_openings": "No current openings"
+    },
+    "news": {
+        "title": "News & Events",
+        "read_more": "Read More",
+        "published_on": "Published on",
+        "no_news": "No news found"
+    },
+    "contact": {
+        "title": "Contact Us",
+        "name": "Your Name",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "subject": "Subject",
+        "message": "Message",
+        "submit": "Send Message",
+        "success": "Message sent successfully!",
+        "head_office": "Head Office"
+    },
+    "grievance": {
+        "title": "Grievance Portal",
+        "submit_title": "Submit Grievance",
+        "track_title": "Track Grievance",
+        "ticket_number": "Ticket Number",
+        "category": "Category",
+        "description": "Description",
+        "submit": "Submit Grievance",
+        "track": "Track Status",
+        "success": "Grievance submitted successfully"
+    },
+    "search": {
+        "placeholder": "Search tenders, news, careers...",
+        "results_for": "Results for",
+        "no_results": "No results found",
+        "news": "News",
+        "tenders": "Tenders",
+        "careers": "Careers",
+        "services": "Services"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "Something went wrong",
+        "back": "Go Back",
+        "close": "Close",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "view": "View",
+        "status": "Status",
+        "actions": "Actions",
+        "created_at": "Created At",
+        "updated_at": "Updated At"
+    },
+    "footer": {
+        "about": "TCIL is a premier consultancy organization providing services in telecom, IT, healthcare and infrastructure sectors across the globe.",
+        "quick_links": "Quick Links",
+        "follow_us": "Follow Us",
+        "copyright": "© 2026 Telecommunications Consultants India Limited. All Rights Reserved.",
+        "rti": "RTI",
+        "privacy": "Privacy Policy",
+        "disclaimer": "Disclaimer"
+    }
+}
