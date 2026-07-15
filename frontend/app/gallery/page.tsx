@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { galleryAPI } from '@/lib/api';
 import moment from 'moment';
 import toast from 'react-hot-toast';
+import { useLanguage } from '@/context/LanguageContext';
 
 const MINIO_URL = process.env.NEXT_PUBLIC_MINIO_URL || 'http://localhost:9000';
 
 export default function GalleryPage() {
+    const { language } = useLanguage();
     const [albums, setAlbums] = useState<any[]>([]);
     const [selectedAlbum, setSelectedAlbum] = useState<any>(null);
     const [photos, setPhotos] = useState<any[]>([]);
@@ -20,13 +22,13 @@ export default function GalleryPage() {
                 const res = await galleryAPI.getAlbums();
                 setAlbums(res.data.data || []);
             } catch {
-                toast.error('Failed to load gallery');
+                toast.error(language === 'hi' ? 'गैलरी लोड करने में विफल' : 'Failed to load gallery');
             } finally {
                 setLoading(false);
             }
         };
         fetch();
-    }, []);
+    }, [language]);
 
     const openAlbum = async (album: any) => {
         setSelectedAlbum(album);
@@ -35,7 +37,7 @@ export default function GalleryPage() {
             const res = await galleryAPI.getPhotos(album.id);
             setPhotos(res.data.data || []);
         } catch {
-            toast.error('Failed to load photos');
+            toast.error(language === 'hi' ? 'फोटो लोड करने में विफल' : 'Failed to load photos');
         } finally {
             setPhotosLoading(false);
         }
@@ -44,9 +46,11 @@ export default function GalleryPage() {
     return (
         <div className="max-w-7xl mx-auto px-4 py-8">
             <div className="bg-blue-900 text-white rounded-xl p-8 mb-8">
-                <h1 className="text-3xl font-bold mb-2">Photo Gallery</h1>
+                <h1 className="text-3xl font-bold mb-2">
+                    {language === 'hi' ? 'फोटो गैलरी' : 'Photo Gallery'}
+                </h1>
                 <p className="text-blue-200">
-                    Capturing moments from TCIL events and projects
+                    {language === 'hi' ? 'टीसीआईएल के कार्यक्रमों और परियोजनाओं के क्षणों को कैद करना' : 'Capturing moments from TCIL events and projects'}
                 </p>
             </div>
 
@@ -77,19 +81,21 @@ export default function GalleryPage() {
                             onClick={() => { setSelectedAlbum(null); setPhotos([]); }}
                             className="text-blue-600 hover:underline"
                         >
-                            ← Back to Albums
+                            {language === 'hi' ? '← एल्बम पर वापस जाएं' : '← Back to Albums'}
                         </button>
                         <h2 className="text-xl font-bold text-gray-800">
-                            {selectedAlbum.title_en}
+                            {language === 'hi' ? (selectedAlbum.title_hi || selectedAlbum.title_en) : selectedAlbum.title_en}
                         </h2>
                     </div>
 
                     {photosLoading ? (
-                        <div className="text-center py-16 text-gray-400">Loading photos...</div>
+                        <div className="text-center py-16 text-gray-400">
+                            {language === 'hi' ? 'फोटो लोड हो रहे हैं...' : 'Loading photos...'}
+                        </div>
                     ) : photos.length === 0 ? (
                         <div className="text-center py-16 text-gray-400 bg-white rounded-xl border">
                             <p className="text-4xl mb-4">📷</p>
-                            <p>No photos in this album yet</p>
+                            <p>{language === 'hi' ? 'इस एल्बम में अभी कोई फोटो नहीं है' : 'No photos in this album yet'}</p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -101,7 +107,7 @@ export default function GalleryPage() {
                                 >
                                     <img
                                         src={`${MINIO_URL}/tcil-media/${photo.thumb_key || photo.file_key}`}
-                                        alt={photo.caption_en || 'Gallery photo'}
+                                        alt={language === 'hi' ? (photo.caption_hi || photo.caption_en || 'Gallery photo') : (photo.caption_en || 'Gallery photo')}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
@@ -110,11 +116,13 @@ export default function GalleryPage() {
                     )}
                 </>
             ) : loading ? (
-                <div className="text-center py-16 text-gray-400">Loading albums...</div>
+                <div className="text-center py-16 text-gray-400">
+                    {language === 'hi' ? 'एल्बम लोड हो रहे हैं...' : 'Loading albums...'}
+                </div>
             ) : albums.length === 0 ? (
                 <div className="text-center py-16 text-gray-400 bg-white rounded-xl border">
                     <p className="text-4xl mb-4">🖼️</p>
-                    <p>No albums found</p>
+                    <p>{language === 'hi' ? 'कोई एल्बम नहीं मिला' : 'No albums found'}</p>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -128,7 +136,7 @@ export default function GalleryPage() {
                                 {album.cover_key ? (
                                     <img
                                         src={`${MINIO_URL}/tcil-media/${album.cover_key}`}
-                                        alt={album.title_en}
+                                        alt={language === 'hi' ? (album.title_hi || album.title_en) : album.title_en}
                                         className="w-full h-full object-cover"
                                     />
                                 ) : (
@@ -136,13 +144,12 @@ export default function GalleryPage() {
                                 )}
                             </div>
                             <div className="p-4">
-                                <h3 className="font-bold text-gray-800">{album.title_en}</h3>
-                                {album.title_hi && (
-                                    <p className="text-gray-400 text-sm">{album.title_hi}</p>
-                                )}
+                                <h3 className="font-bold text-gray-800">
+                                    {language === 'hi' ? (album.title_hi || album.title_en) : album.title_en}
+                                </h3>
                                 <div className="flex justify-between items-center mt-2">
                                     <span className="text-sm text-gray-500">
-                                        {album.photo_count || 0} photos
+                                        {album.photo_count || 0} {language === 'hi' ? 'फोटो' : 'photos'}
                                     </span>
                                     {album.event_date && (
                                         <span className="text-xs text-gray-400">

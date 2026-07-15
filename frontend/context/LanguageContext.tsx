@@ -1,47 +1,37 @@
-'use client';
-import { createContext, useContext, useEffect, useState } from 'react';
+"use client";
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-type Lang = 'en' | 'hi';
+type LanguageContextType = {
+    language: 'en' | 'hi';
+    setLanguage: (lang: 'en' | 'hi') => void;
+};
 
-interface LangContextType {
-    lang: Lang;
-    setLang: (lang: Lang) => void;
-    t: (en: string, hi: string) => string;
-}
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const LanguageContext = createContext<LangContextType>({
-    lang: 'en',
-    setLang: () => { },
-    t: (en) => en,
-});
-
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-    const [lang, setLangState] = useState<Lang>('en');
+export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
+    const [language, setLanguage] = useState<'en' | 'hi'>('en');
 
     useEffect(() => {
-        const saved = localStorage.getItem('tcil_lang') as Lang;
-        if (saved) setLangState(saved);
-
-        const handler = (e: any) => {
-            setLangState(e.detail);
-        };
-        window.addEventListener('langChange', handler);
-        return () => window.removeEventListener('langChange', handler);
+        const savedLang = localStorage.getItem('tcil_lang') as 'en' | 'hi';
+        if (savedLang) setLanguage(savedLang);
     }, []);
 
-    const setLang = (l: Lang) => {
-        setLangState(l);
-        localStorage.setItem('tcil_lang', l);
-        window.dispatchEvent(new CustomEvent('langChange', { detail: l }));
+    const handleSetLanguage = (lang: 'en' | 'hi') => {
+        setLanguage(lang);
+        localStorage.setItem('tcil_lang', lang);
     };
 
-    const t = (en: string, hi: string) => lang === 'hi' ? hi : en;
-
     return (
-        <LanguageContext.Provider value={{ lang, setLang, t }}>
+        <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage }}>
             {children}
         </LanguageContext.Provider>
     );
-}
+};
 
-export const useLang = () => useContext(LanguageContext);
+export const useLanguage = () => {
+    const context = useContext(LanguageContext);
+    if (context === undefined) {
+        return { language: 'en', setLanguage: () => { } };
+    }
+    return context;
+};
